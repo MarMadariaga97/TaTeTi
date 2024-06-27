@@ -2,6 +2,8 @@ package juego;
 
 public class Juego {
 	private String[][] tabla;
+	private String jugador1;
+	private String jugador2;
 	private int turno;
 
 	public Juego() {
@@ -16,7 +18,28 @@ public class Juego {
 		this.tabla[2][1]="";
 		this.tabla[2][2]="";
 		this.turno=0;
+		this.jugador1="";
+		this.jugador2="";
 	}
+	
+	
+	public String getJugador1() {
+		return this.jugador1;
+	}
+	
+	public void setJugador1(String s1) {
+		this.jugador1=s1;
+	}
+	
+	public String getJugador2() {
+		return this.jugador2;
+	}
+	
+	public void setJugador2(String s2) {
+		this.jugador2=s2;
+	}
+	
+	
 
 	public String[][] getTabla() {
 		return this.tabla;
@@ -29,11 +52,13 @@ public class Juego {
 	public String getSimbolo() {
 		if (turno % 2 == 0) {
 			turno = turno + 1;
+			System.out.println(turno + " X");
 			return "X";
 		}
 
 		else {
 			turno = turno + 1;
+			System.out.println(turno + " O");
 			return "O";
 		}
 
