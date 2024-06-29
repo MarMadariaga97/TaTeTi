@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,10 +18,12 @@ public class FrameJuego {
 	private JFrame frame;
 	private Juego tateti;
 	private JButton[][] botones;
-	JLabel lblNombreGanador;
-	JLabel lblGanador;
-	JButton btnVolverAJugar;
+	private JLabel lblNombreGanador;
+	private JLabel lblGanador;
+	private JButton btnVolverAJugar;
 	private JLabel lblfondo;
+	private JPanel panel;
+	private JPanel panelPrincipal;
 
 	public FrameJuego(Juego juego) {
 		frame = new JFrame();
@@ -33,40 +33,44 @@ public class FrameJuego {
 
 		tateti = new Juego();
 
-		Border borde = BorderFactory.createEtchedBorder();
+		Border borde = BorderFactory.createLineBorder(new Color(169, 107, 225), 2);
 
 		botones = new JButton[3][3];
 
-		lblfondo = new JLabel(new ImageIcon("src/imagenes/fondoJuego.png"));
+		lblfondo = new JLabel();
 		lblfondo.setBounds(0, 0, 536, 433);
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
+		panel.setBackground(new Color(18, 17, 17));
 		panel.setBounds(0, 0, 537, 433);
 		panel.setLayout(null);
 		panel.add(lblfondo);
 		frame.getContentPane().add(panel);
 
 		lblNombreGanador = new JLabel("");
+		lblNombreGanador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombreGanador.setVerticalAlignment(SwingConstants.CENTER);
+		lblNombreGanador.setForeground(new Color(148, 123, 166));
 		lblNombreGanador.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblNombreGanador.setBounds(212, 307, 215, 52);
+		lblNombreGanador.setBounds(159, 313, 210, 43);
 		lblNombreGanador.setVisible(false);
 
 		lblGanador = new JLabel("Ganador/a:");
+		lblGanador.setForeground(new Color(148, 123, 166));
 		lblGanador.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblGanador.setBounds(95, 307, 105, 52);
+		lblGanador.setBounds(54, 306, 105, 52);
 		lblGanador.setVisible(false);
 
-		JPanel panelPrincipal = new JPanel(new GridLayout(3, 3));
+		panelPrincipal = new JPanel(new GridLayout(3, 3));
 		panelPrincipal.setBounds(46, 33, 438, 264);
 		panelPrincipal.setVisible(true);
+		panelPrincipal.setOpaque(false);
 
 		for (int i = 0; i < botones.length; i++) {
 			for (int j = 0; j < botones.length; j++) {
-				String nombreBoton = "b" + String.valueOf(i) + String.valueOf(j);
 				JButton boton = new JButton();
-				boton.setName(nombreBoton);
 				botones[i][j] = boton;
-				boton.setFont(boton.getFont().deriveFont(Font.BOLD, 24f)); // Creo una fuente de tamaño 24
+				boton.setFont(boton.getFont().deriveFont(Font.BOLD, 30f)); // Creo una fuente de tamaño 24
 				boton.setHorizontalAlignment(SwingConstants.CENTER); // Centrar el texto
 				boton.setBorder(borde);
 				boton.setFocusPainted(false);
@@ -90,10 +94,10 @@ public class FrameJuego {
 
 							if (botones[fila][col].getText().equals("X"))
 
-								botones[fila][col].setForeground(Color.blue);
+								botones[fila][col].setForeground(new Color(255, 22, 255));
 
 							else
-								botones[fila][col].setForeground(Color.red);
+								botones[fila][col].setForeground(new Color(21, 169, 178));
 						}
 
 						if (tateti.hayGanador(botones[fila][col].getText())) {
@@ -101,27 +105,36 @@ public class FrameJuego {
 							lblGanador.setVisible(true);
 
 							if (botones[fila][col].getText().equals("X")) {
-							
-								if(juego.getJugador1().equals(""))
+
+								if (juego.getJugador1().equals(""))
 									lblNombreGanador.setText("Jugador 1");
-								
+
 								else
 									lblNombreGanador.setText(juego.getJugador1());
 							}
-							
-							
+
 							else {
-								if(juego.getJugador2().equals(""))
+								if (juego.getJugador2().equals(""))
 									lblNombreGanador.setText("Jugador 2");
-								
+
 								else
 									lblNombreGanador.setText(juego.getJugador2());
 							}
-								
+
 							lblNombreGanador.setVisible(true);
 							btnVolverAJugar.setVisible(true);
 
 						}
+
+						else {
+							if (tateti.tableroLleno()) {
+								lblNombreGanador.setText("EMPATE");
+								lblNombreGanador.setVisible(true);
+								btnVolverAJugar.setVisible(true);
+							}
+
+						}
+
 					}
 				});
 			}
@@ -129,7 +142,11 @@ public class FrameJuego {
 
 		btnVolverAJugar = new JButton("Volver a jugar");
 		btnVolverAJugar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnVolverAJugar.setBackground(new Color(18, 17, 17));
+		btnVolverAJugar.setForeground(new Color(148, 123, 166));
 		btnVolverAJugar.setVisible(false);
+		btnVolverAJugar.setFocusPainted(false);
+		btnVolverAJugar.setOpaque(false);
 		btnVolverAJugar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -137,17 +154,14 @@ public class FrameJuego {
 
 			}
 		});
-		btnVolverAJugar.setBounds(192, 369, 138, 42);
+		btnVolverAJugar.setBounds(197, 364, 138, 42);
 
 		lblfondo.add(panelPrincipal);
-		lblfondo.add(lblGanador);
 		lblfondo.add(lblNombreGanador);
+		lblfondo.add(lblGanador);
 		lblfondo.add(btnVolverAJugar);
 
-	
 	}
-
-		
 
 	public void reiniciar() {
 		this.tateti = new Juego();
