@@ -1,10 +1,15 @@
 package juego;
 
+import java.util.Random;
+
 public class Juego {
 	private String[][] tabla;
-	private String jugador1;
-	private String jugador2;
+	private String jugador1="";
+	private String jugador2="";
 	private int turno;
+	private String primerTurno;
+	private String SegundoTurno;
+
 
 	public Juego() {
 		this.tabla = new String[3][3];
@@ -18,8 +23,6 @@ public class Juego {
 		this.tabla[2][1] = "";
 		this.tabla[2][2] = "";
 		this.turno = 0;
-		this.jugador1 = "";
-		this.jugador2 = "";
 	}
 
 	public String getJugador1() {
@@ -57,6 +60,34 @@ public class Juego {
 			return "O";
 		}
 
+	}
+	
+	public String sortear() {
+
+        Random random = new Random();
+        int numAleatorio = random.nextInt(10)+1;
+        System.out.println(numAleatorio);
+        
+        if(numAleatorio<6) {
+        	this.primerTurno=this.jugador1;
+        	this.SegundoTurno=this.jugador2;
+        	
+        	
+        }
+        else {
+        	this.primerTurno=this.jugador2;
+        	this.SegundoTurno=this.jugador1;
+         }
+        
+        return this.primerTurno;
+	}
+	
+	public String getPrimerTurno() {
+		return this.primerTurno;
+	}
+	
+	public String getSegundoTurno() {
+		return this.SegundoTurno;
 	}
 
 	private boolean alineacionHorizontal(String s) {
@@ -128,4 +159,14 @@ public class Juego {
 		return true;
 	}
 
+	public void limpiarTabla() {
+
+		for (String[] s : this.tabla) {
+			for (int i = 0; i < s.length; i++) {
+				s[i]="";
+				
+			}
+		}
+
+	}
 }

@@ -1,5 +1,6 @@
 package juego;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,24 +41,28 @@ public class FramePresentacion {
 
 		J1 = new JLabel("Nombre de jugador 1");
 		J1.setHorizontalAlignment(SwingConstants.CENTER);
-		J1.setForeground(new Color(148, 123, 166));
+		J1.setForeground(new Color(169, 107, 255));
 		J1.setFont(new Font("Arial", Font.BOLD, 15));
 		J1.setBounds(46, 292, 155, 27);
 
 		J2 = new JLabel("Nombre de jugador 2");
 		J2.setHorizontalAlignment(SwingConstants.CENTER);
-		J2.setForeground(new Color(148, 123, 166));
+		J2.setForeground(new Color(169, 107, 255));
 		J2.setFont(new Font("Arial", Font.BOLD, 15));
 		J2.setBounds(311, 292, 166, 27);
 
 		textFieldJ1 = new JTextField();
 		textFieldJ1.setFont(new Font("Candara", Font.PLAIN, 14));
-		textFieldJ1.setForeground(new Color(148, 123, 166));
+		textFieldJ1.setOpaque(false); // textField transparente
+	    textFieldJ1.setBorder(BorderFactory.createLineBorder(new Color(169, 107, 255))); 
+	    textFieldJ1.setForeground(new Color(148, 123, 166));
 		textFieldJ1.setBounds(75, 323, 96, 19);
 		textFieldJ1.setColumns(10);
 
 		textFieldJ2 = new JTextField();
 		textFieldJ2.setFont(new Font("Candara", Font.PLAIN, 14));
+		textFieldJ2.setOpaque(false); 
+	    textFieldJ2.setBorder(BorderFactory.createLineBorder(new Color(169, 107, 255))); 
 		textFieldJ2.setForeground(new Color(148, 123, 166));
 		textFieldJ2.setColumns(10);
 		textFieldJ2.setBounds(336, 323, 96, 19);
@@ -71,7 +76,7 @@ public class FramePresentacion {
 				cambiarFrame(f.getFrame());
 			}
 		});
-		btnJugar.setForeground(new Color(148, 123, 166));
+		btnJugar.setForeground(new Color(169, 107, 255));
 		btnJugar.setBackground(new Color(18, 17, 17));
 		btnJugar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnJugar.setBounds(220, 369, 85, 21);

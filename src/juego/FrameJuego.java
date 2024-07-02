@@ -16,22 +16,22 @@ import javax.swing.border.Border;
 public class FrameJuego {
 
 	private JFrame frame;
-	private Juego tateti;
 	private JButton[][] botones;
 	private JLabel lblNombreGanador;
 	private JLabel lblGanador;
 	private JButton btnVolverAJugar;
 	private JLabel lblfondo;
+	private JLabel lblAclaracion;
+	private JLabel lblAclaracion2;
 	private JPanel panel;
 	private JPanel panelPrincipal;
+
 
 	public FrameJuego(Juego juego) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 551, 470);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
-		tateti = new Juego();
 
 		Border borde = BorderFactory.createLineBorder(new Color(169, 107, 225), 2);
 
@@ -46,23 +46,36 @@ public class FrameJuego {
 		panel.setLayout(null);
 		panel.add(lblfondo);
 		frame.getContentPane().add(panel);
-
+		
+		lblAclaracion = new JLabel("El jugador que comienza es: " + juego.sortear());
+		lblAclaracion.setForeground(new Color(169, 107, 255));
+		lblAclaracion.setFont(new Font("Arial", Font.PLAIN, 10));
+		lblAclaracion.setBounds(54, 285, 400, 30);
+		lblAclaracion.setVisible(true);
+		
+		lblAclaracion2 = new JLabel(juego.getPrimerTurno() + ": X, " + juego.getSegundoTurno() + ": O.");
+		lblAclaracion2.setForeground(new Color(169, 107, 255));
+		lblAclaracion2.setFont(new Font("Arial", Font.PLAIN, 10));
+		lblAclaracion2.setBounds(54, 310, 400, 30);
+		lblAclaracion2.setVisible(true);
+		
+		
 		lblNombreGanador = new JLabel("");
 		lblNombreGanador.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombreGanador.setVerticalAlignment(SwingConstants.CENTER);
-		lblNombreGanador.setForeground(new Color(148, 123, 166));
+		lblNombreGanador.setForeground(new Color(169, 107, 255));
 		lblNombreGanador.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblNombreGanador.setBounds(159, 313, 210, 43);
+		lblNombreGanador.setBounds(159, 330, 210, 43);
 		lblNombreGanador.setVisible(false);
 
 		lblGanador = new JLabel("Ganador/a:");
-		lblGanador.setForeground(new Color(148, 123, 166));
+		lblGanador.setForeground(new Color(169, 107, 255));
 		lblGanador.setFont(new Font("Arial", Font.PLAIN, 20));
-		lblGanador.setBounds(54, 306, 105, 52);
+		lblGanador.setBounds(54, 320, 105, 52);
 		lblGanador.setVisible(false);
 
 		panelPrincipal = new JPanel(new GridLayout(3, 3));
-		panelPrincipal.setBounds(46, 33, 438, 264);
+		panelPrincipal.setBounds(46, 15, 438, 264);
 		panelPrincipal.setVisible(true);
 		panelPrincipal.setOpaque(false);
 
@@ -89,8 +102,8 @@ public class FrameJuego {
 					public void actionPerformed(ActionEvent e) {
 
 						if (botones[fila][col].getText().equals("")) {
-							botones[fila][col].setText(tateti.getSimbolo());
-							tateti.setTabla(fila, col, botones[fila][col].getText());
+							botones[fila][col].setText(juego.getSimbolo());
+							juego.setTabla(fila, col, botones[fila][col].getText());
 
 							if (botones[fila][col].getText().equals("X"))
 
@@ -100,7 +113,7 @@ public class FrameJuego {
 								botones[fila][col].setForeground(new Color(21, 169, 178));
 						}
 
-						if (tateti.hayGanador(botones[fila][col].getText())) {
+						if (juego.hayGanador(botones[fila][col].getText())) {
 							inhabilitarBotones();
 							lblGanador.setVisible(true);
 
@@ -110,7 +123,7 @@ public class FrameJuego {
 									lblNombreGanador.setText("Jugador 1");
 
 								else
-									lblNombreGanador.setText(juego.getJugador1());
+									lblNombreGanador.setText(juego.getPrimerTurno());
 							}
 
 							else {
@@ -118,7 +131,7 @@ public class FrameJuego {
 									lblNombreGanador.setText("Jugador 2");
 
 								else
-									lblNombreGanador.setText(juego.getJugador2());
+									lblNombreGanador.setText(juego.getSegundoTurno());
 							}
 
 							lblNombreGanador.setVisible(true);
@@ -127,7 +140,7 @@ public class FrameJuego {
 						}
 
 						else {
-							if (tateti.tableroLleno()) {
+							if (juego.tableroLleno()) {
 								lblNombreGanador.setText("EMPATE");
 								lblNombreGanador.setVisible(true);
 								btnVolverAJugar.setVisible(true);
@@ -143,30 +156,33 @@ public class FrameJuego {
 		btnVolverAJugar = new JButton("Volver a jugar");
 		btnVolverAJugar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnVolverAJugar.setBackground(new Color(18, 17, 17));
-		btnVolverAJugar.setForeground(new Color(148, 123, 166));
+		btnVolverAJugar.setForeground(new Color(169, 107, 255));
 		btnVolverAJugar.setVisible(false);
 		btnVolverAJugar.setFocusPainted(false);
 		btnVolverAJugar.setOpaque(false);
 		btnVolverAJugar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				reiniciar();
+				lblAclaracion2.setText(juego.getPrimerTurno() + ": X, "  + juego.getSegundoTurno() + ": O.");
+				juego.limpiarTabla();
+				reiniciar(juego);
 
 			}
 		});
-		btnVolverAJugar.setBounds(197, 364, 138, 42);
+		btnVolverAJugar.setBounds(197, 385, 138, 42);
 
 		lblfondo.add(panelPrincipal);
 		lblfondo.add(lblNombreGanador);
 		lblfondo.add(lblGanador);
 		lblfondo.add(btnVolverAJugar);
-
+		lblfondo.add(lblAclaracion);
+		lblfondo.add(lblAclaracion2);
 	}
 
-	public void reiniciar() {
-		this.tateti = new Juego();
+	public void reiniciar(Juego juego) {
 		for (int i = 0; i < botones.length; i++) {
 			for (int j = 0; j < botones.length; j++) {
+				
 				botones[i][j].setText("");
 				botones[i][j].setEnabled(true);
 			}
@@ -175,6 +191,8 @@ public class FrameJuego {
 		this.lblGanador.setVisible(false);
 		this.lblNombreGanador.setVisible(false);
 		btnVolverAJugar.setVisible(false);
+		lblAclaracion.setText("El jugador que comienza es: " + juego.sortear());
+		lblAclaracion2.setText(juego.getPrimerTurno() + ": X, " + juego.getSegundoTurno() + ": O.");
 
 	}
 
@@ -188,8 +206,11 @@ public class FrameJuego {
 		}
 	}
 
+	
+	
 	public JFrame getFrame() {
 		return this.frame;
 	}
-
+	
+	
 }
