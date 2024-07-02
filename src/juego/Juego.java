@@ -66,7 +66,7 @@ public class Juego {
 
         Random random = new Random();
         int numAleatorio = random.nextInt(10)+1;
-        System.out.println(numAleatorio);
+        
         
         if(numAleatorio<6) {
         	this.primerTurno=this.jugador1;
